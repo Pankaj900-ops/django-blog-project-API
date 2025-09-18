@@ -1,0 +1,10 @@
+
+{% extends "blog_app/base.html" %}
+{% block content %}
+<article class="post-full">
+  <h2>{{ post.title }}</h2>
+  <p class="meta">By {{ post.author.username }} — {{ post.timestamp }}</p>
+  <div class="content">{{ post.content|safe }}</div>
+</article>
+<a href="/blog/">Back to list</a>
+{% endblock %}

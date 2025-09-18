@@ -1,0 +1,8 @@
+
+from django.contrib import admin
+from .models import BlogPost
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ('title','author','status','timestamp')
+    list_filter = ('status','timestamp','author')
+    search_fields = ('title','content','author__username')

@@ -1,0 +1,95 @@
+/* Global background & font */
+body {
+    background-color: #FFEBCD;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333333;
+}
+
+/* Blog container (white card look) */
+.blog-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #a6b6b6;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Each blog post */
+.blog-post {
+    border-bottom: 2px solid #e0e0e0;
+    padding: 20px 0;
+}
+
+.blog-post h2 {
+    color: #2a9d8f; /* Teal */
+    margin-bottom: 10px;
+}
+
+.author {
+    font-size: 14px;
+    color: #555555;
+}
+
+.timestamp {
+    font-size: 12px;
+    color: #888888;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Content area */
+.content {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Like Button */
+.like-btn {
+    background: #e76f51; /* Coral */
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.like-btn:hover {
+    background: #d62828; /* Darker red */
+}
+
+/* Share Links */
+.share-links a {
+    margin-right: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #2a9d8f;
+}
+
+.share-links a:hover {
+    text-decoration: underline;
+}
+
+/* Load More Button */
+#load-more-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background: #2a9d8f;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#load-more-btn:hover {
+    background: #21867a;
+}
+
+

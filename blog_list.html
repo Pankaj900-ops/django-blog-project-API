@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Blog</title>
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+
+
+</head>
+<body>
+    <div class="blog-container">
+        {% for post in posts %}
+        <div class="blog-post" id="post-{{ post.id }}">
+            <h2>{{ post.title }}</h2>
+            <p class="author">By {{ post.author.username }}</p>
+            <p class="timestamp">{{ post.timestamp }}</p>
+            <div class="content">
+                {{ post.content|safe }}
+            </div>
+
+            <!-- Actions: Like & Share -->
+            <div class="actions">
+                <!-- Like button -->
+                <button class="like-btn" onclick="likePost({{ post.id }})">
+                    👍 Like (<span id="like-count-{{ post.id }}">{{ post.total_likes }}</span>)
+                </button>
+
+                <!-- Share links -->
+                <div class="share-links">
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ post.title }}" target="_blank" class="share twitter">🐦 Twitter</a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="share facebook">📘 Facebook</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="no-posts">🚫 No posts available yet!</p>
+        {% endfor %}
+
+        <!-- Optional Load More button -->
+        <div id="load-more-container">
+            <button id="load-more-btn">Load More</button>
+        </div>
+    </div>
+
+    <script>
+    function likePost(postId) {
+        fetch(`/blog/${postId}/like/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById(`like-count-${postId}`).innerText = data.total_likes;
+            alert(data.liked ? 'Liked!' : 'Unliked!');
+        });
+    }
+
+    // Optional: Load More Posts
+    let page = 2;  // First page already loaded
+    document.getElementById('load-more-btn').addEventListener('click', function() {
+        fetch(`/api/load-more/?page=${page}`)
+            .then(res => res.json())
+            .then(data => {
+                if(data.results.length === 0) {
+                    alert("No more posts to load!");
+                    return;
+                }
+                const container = document.querySelector('.blog-container');
+                data.results.forEach(post => {
+                    const div = document.createElement('div');
+                    div.className = 'blog-post';
+                    div.innerHTML = `
+                        <h2>${post.title}</h2>
+                        <p class="author">By ${post.author}</p>
+                        <p class="timestamp">${post.timestamp}</p>
+                        <div class="content">${post.excerpt}...</div>
+                        <div class="actions">
+                            <button class="like-btn" onclick="likePost(${post.id})">👍 Like (<span id="like-count-${post.id}">${post.total_likes}</span>)</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+                page += 1;
+            });
+    });
+    </script>
+</body>
+</html>
